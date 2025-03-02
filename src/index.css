@@ -14,16 +14,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 223 91% 53%;
+    --primary: 266 100% 64%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 214 32% 91%;
+    --secondary: 262 83% 58%;
     --secondary-foreground: 222 47% 11%;
 
     --muted: 214 32% 91%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 214 32% 91%;
+    --accent: 262 83% 58%;
     --accent-foreground: 222 47% 11%;
 
     --destructive: 0 84% 60%;
@@ -31,7 +31,7 @@
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 221 83% 53%;
+    --ring: 267 100% 60%;
 
     --radius: 0.75rem;
   }
@@ -46,16 +46,16 @@
     --popover: 222 47% 7%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 223 91% 53%;
+    --primary: 267 100% 70%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 217 33% 17%;
+    --secondary: 262 83% 58%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 217 33% 17%;
+    --accent: 262 83% 58%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 63% 31%;
@@ -63,7 +63,7 @@
 
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 224 76% 48%;
+    --ring: 266 100% 64%;
   }
 }
 
@@ -96,15 +96,15 @@
 
 @layer components {
   .glass-panel {
-    @apply bg-white/70 dark:bg-black/60 backdrop-blur-md border border-white/20 dark:border-white/5 shadow-glass p-6 rounded-xl;
+    @apply bg-white/70 dark:bg-black/60 backdrop-blur-md border border-purple-100/20 dark:border-purple-900/20 shadow-glass p-6 rounded-xl relative overflow-hidden;
   }
   
   .glass-input {
-    @apply bg-white/50 dark:bg-black/30 backdrop-blur-sm border border-white/20 dark:border-gray-800 shadow-sm;
+    @apply bg-white/50 dark:bg-black/30 backdrop-blur-sm border border-purple-100/20 dark:border-purple-900/20 shadow-sm;
   }
   
   .transaction-card {
-    @apply bg-white dark:bg-black/60 rounded-xl border border-border shadow-elevated p-5 transition-all duration-300;
+    @apply bg-white dark:bg-black/60 rounded-xl border border-purple-100 dark:border-purple-900/30 shadow-elevated p-5 transition-all duration-300;
   }
   
   .card-hover {
@@ -116,7 +116,7 @@
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-swell to-swell-light dark:from-swell-light dark:to-swell;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400;
   }
 
   .gradient-border {
@@ -129,13 +129,35 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(to right, theme('colors.swell.DEFAULT'), theme('colors.swell.light'));
+    background: linear-gradient(to right, theme('colors.purple.600'), theme('colors.blue.600'));
     -webkit-mask: 
       linear-gradient(#fff 0 0) content-box, 
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+  }
+
+  .solana-button {
+    @apply bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white transition-all duration-300;
+  }
+
+  .token-icon-pair {
+    position: relative;
+    width: 36px;
+    height: 20px;
+  }
+
+  .token-icon-pair > :first-child {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .token-icon-pair > :last-child {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 
@@ -146,16 +168,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(147, 112, 219, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(147, 112, 219, 0.2);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(147, 112, 219, 0.3);
 }
 
 /* Smooth transitions */
@@ -163,4 +185,18 @@
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+/* Animation for token swaps */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px 2px rgba(147, 112, 219, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px 6px rgba(147, 112, 219, 0.2);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
 }

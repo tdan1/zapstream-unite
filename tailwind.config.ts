@@ -68,7 +68,38 @@ export default {
 					dark: '#0846F1',
 					light: '#3E74FF',
 					subtle: '#EEF2FF'
-				}
+				},
+				purple: {
+					50: '#f5f3ff',
+					100: '#ede9fe',
+					200: '#ddd6fe',
+					300: '#c4b5fd',
+					400: '#a78bfa',
+					500: '#8b5cf6',
+					600: '#7c3aed',
+					700: '#6d28d9',
+					800: '#5b21b6',
+					900: '#4c1d95',
+					950: '#2e1065',
+				},
+				blue: {
+					50: '#eff6ff',
+					100: '#dbeafe',
+					200: '#bfdbfe',
+					300: '#93c5fd',
+					400: '#60a5fa',
+					500: '#3b82f6',
+					600: '#2563eb',
+					700: '#1d4ed8',
+					800: '#1e40af',
+					900: '#1e3a8a',
+					950: '#172554',
+				},
+				solana: {
+					light: '#9b87f5',
+					DEFAULT: '#8B5CF6',
+					dark: '#7E69AB',
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -164,7 +195,8 @@ export default {
 			boxShadow: {
 				'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
 				'elevated': '0 10px 30px -5px rgba(0, 0, 0, 0.05)',
-				'button': '0 2px 4px rgba(0, 0, 0, 0.05)'
+				'button': '0 2px 4px rgba(0, 0, 0, 0.05)',
+				'solana': '0 0 20px 2px rgba(147, 112, 219, 0.15)'
 			},
 			transitionProperty: {
 				'height': 'height',

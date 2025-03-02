@@ -6,6 +6,8 @@ import { ArrowRight, Coins, Loader2, RefreshCw } from "lucide-react";
 import { ethers } from "ethers";
 import { estimateSwethAmount, stakeEthToSweth, restakeSwethViaEigen } from "@/lib/contract";
 import { MIN_ETH_AMOUNT } from "@/lib/constants";
+import TokenIcon from "./TokenIcon";
+import { TOKENS } from "@/lib/constants";
 
 interface StakingInterfaceProps {
   connected: boolean;
@@ -36,8 +38,10 @@ const StakingInterface: React.FC<StakingInterfaceProps> = ({
     ? "Restake your swETH through EigenLayer for additional rewards"
     : "Stake your ETH to receive swETH liquid staking tokens";
   const balance = isRestaking ? swethBalance : ethBalance;
-  const inputToken = isRestaking ? "swETH" : "ETH";
-  const outputToken = isRestaking ? "rswETH" : "swETH";
+  const inputToken = isRestaking ? TOKENS.SWETH : TOKENS.ETH;
+  const outputToken = isRestaking 
+    ? { ...TOKENS.SWETH, symbol: "rswETH", name: "Restaked swETH" }
+    : TOKENS.SWETH;
 
   useEffect(() => {
     const updateEstimatedAmount = async () => {
@@ -136,27 +140,29 @@ const StakingInterface: React.FC<StakingInterfaceProps> = ({
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto glass-panel border border-gray-200 dark:border-gray-800 shadow-elevated rounded-xl">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-2xl font-semibold text-center gradient-text">
+    <Card className="w-full max-w-md mx-auto glass-panel border-purple-100 dark:border-purple-900/30 shadow-elevated rounded-xl overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 dark:from-purple-900/10 dark:to-blue-900/10" />
+      
+      <CardHeader className="pb-4 relative">
+        <CardTitle className="text-2xl font-semibold text-center text-purple-900 dark:text-purple-300">
           {title}
         </CardTitle>
-        <CardDescription className="text-center text-gray-600 dark:text-gray-300">
+        <CardDescription className="text-center text-purple-700/70 dark:text-purple-300/70">
           {description}
         </CardDescription>
       </CardHeader>
       
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 relative">
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label htmlFor="amount" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="amount" className="text-sm font-medium text-purple-800 dark:text-purple-300">
               Amount
             </label>
-            <div className="text-xs text-gray-500 dark:text-gray-400">
-              Balance: {parseFloat(balance).toFixed(6)} {inputToken}
+            <div className="text-xs text-purple-600 dark:text-purple-400">
+              Balance: {parseFloat(balance).toFixed(6)} {inputToken.symbol}
               <button 
                 onClick={handleMaxClick}
-                className="ml-1 text-swell hover:text-swell-dark dark:text-swell-light dark:hover:text-swell font-medium"
+                className="ml-1 text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium"
                 disabled={parseFloat(balance) === 0}
               >
                 MAX
@@ -165,58 +171,64 @@ const StakingInterface: React.FC<StakingInterfaceProps> = ({
           </div>
           
           <div className="relative">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+              <TokenIcon token={inputToken} size={20} />
+            </div>
             <Input
               id="amount"
               type="text"
               value={amount}
               onChange={handleAmountChange}
               placeholder="0.0"
-              className="pr-16 font-medium text-lg glass-input"
+              className="pl-10 pr-16 font-medium text-lg glass-input bg-white/40 dark:bg-black/20 border-purple-100 dark:border-purple-900/30"
               disabled={isProcessing || !connected}
             />
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-              <span className="text-gray-500 dark:text-gray-400 font-medium">{inputToken}</span>
+              <span className="text-purple-600 dark:text-purple-400 font-medium">{inputToken.symbol}</span>
             </div>
           </div>
         </div>
         
         <div className="flex justify-center my-2">
-          <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-            <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+          <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+            <ArrowRight className="h-4 w-4 text-purple-500 dark:text-purple-400" />
           </div>
         </div>
         
         <div className="space-y-2">
-          <label htmlFor="estimated" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="estimated" className="text-sm font-medium text-purple-800 dark:text-purple-300">
             You will receive (estimated)
           </label>
           
           <div className="relative">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+              <TokenIcon token={outputToken} size={20} />
+            </div>
             <Input
               id="estimated"
               type="text"
               value={estimatedAmount}
               readOnly
-              className="pr-16 font-medium text-lg glass-input"
+              className="pl-10 pr-16 font-medium text-lg glass-input bg-white/40 dark:bg-black/20 border-purple-100 dark:border-purple-900/30"
             />
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-              <span className="text-gray-500 dark:text-gray-400 font-medium">{outputToken}</span>
+              <span className="text-purple-600 dark:text-purple-400 font-medium">{outputToken.symbol}</span>
             </div>
           </div>
         </div>
         
         {error && (
-          <div className="text-destructive text-sm bg-destructive/10 dark:bg-destructive/20 p-2 rounded animate-fade-in">
+          <div className="text-red-500 text-sm bg-red-50 dark:bg-red-900/20 p-2 rounded-md animate-fade-in">
             {error}
           </div>
         )}
       </CardContent>
       
-      <CardFooter>
+      <CardFooter className="relative">
         <Button 
           onClick={handleSubmit}
           disabled={isProcessing || !connected || !amount || parseFloat(amount) === 0}
-          className="w-full h-12 bg-swell hover:bg-swell-dark transition-all duration-300"
+          className="w-full h-12 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-0 transition-all duration-300"
         >
           {isProcessing ? (
             <>

@@ -14,6 +14,7 @@ import { getAccountBalances } from "@/lib/contract";
 import { Transaction, TransactionStatus, TransactionType, SwapQuote } from "@/lib/types";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import WaveBackground from "@/components/WaveBackground";
+import TokenIcon from "@/components/TokenIcon";
 
 const Index = () => {
   const { toast } = useToast();
@@ -147,15 +148,15 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative bg-gradient-to-b from-gray-50 to-blue-50 dark:from-gray-950 dark:to-blue-950">
+    <div className="min-h-screen flex flex-col relative bg-gradient-to-b from-white to-purple-50 dark:from-gray-950 dark:to-purple-950">
       <WaveBackground />
       
       {/* Header */}
       <header className="w-full py-6 relative z-10">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold gradient-text">SwellFlow</h1>
-            <div className="ml-4 px-3 py-1 bg-swell-subtle dark:bg-swell/20 text-swell dark:text-swell-light text-xs font-medium rounded-full">
+            <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-500 dark:to-blue-400">SwellFlow</h1>
+            <div className="ml-4 px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-medium rounded-full">
               Beta
             </div>
           </div>
@@ -175,9 +176,9 @@ const Index = () => {
           {/* Hero Section */}
           <section className="text-center mb-12 animate-fade-in">
             <h1 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
-              <span className="gradient-text">Simplify Your Swellchain Experience</span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-500 dark:to-blue-400">Simplify Your Swellchain Experience</span>
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-lg text-purple-700 dark:text-purple-300 max-w-2xl mx-auto">
               Stake, restake, and swap in one seamless interface. Unlock the power of Swellchain with just a few clicks.
             </p>
           </section>
@@ -185,16 +186,16 @@ const Index = () => {
           {/* Main Interface */}
           <section className="mb-12">
             <Tabs defaultValue="stake" value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3 mb-8 bg-gray-100/50 dark:bg-gray-900/50 backdrop-blur-sm">
-                <TabsTrigger value="stake" className="data-[state=active]:bg-swell data-[state=active]:text-white">
+              <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm border border-purple-100 dark:border-purple-900/30 rounded-lg">
+                <TabsTrigger value="stake" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 data-[state=active]:text-white">
                   <Coins className="mr-2 h-4 w-4" />
                   Stake ETH
                 </TabsTrigger>
-                <TabsTrigger value="restake" className="data-[state=active]:bg-swell data-[state=active]:text-white">
+                <TabsTrigger value="restake" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 data-[state=active]:text-white">
                   <GitMerge className="mr-2 h-4 w-4" />
                   Restake swETH
                 </TabsTrigger>
-                <TabsTrigger value="swap" className="data-[state=active]:bg-swell data-[state=active]:text-white">
+                <TabsTrigger value="swap" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 data-[state=active]:text-white">
                   <ArrowLeftRight className="mr-2 h-4 w-4" />
                   Swap Tokens
                 </TabsTrigger>
@@ -238,14 +239,37 @@ const Index = () => {
           {/* Recent Transactions */}
           {wallet.connected && transactions.length > 0 && (
             <section className="mb-12 animate-fade-in">
-              <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
+              <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Recent Transactions</h2>
               <div className="space-y-3">
                 {transactions.slice(0, 5).map((tx) => (
-                  <div key={tx.id} className="transaction-card card-hover dark:bg-gray-900/60 dark:border-gray-800">
+                  <div key={tx.id} className="transaction-card glass-panel dark:bg-gray-900/60 dark:border-purple-900/30 hover:border-purple-200 dark:hover:border-purple-800/50">
                     <div className="flex justify-between items-center">
                       <div>
                         <div className="flex items-center">
-                          <span className="text-sm font-medium">
+                          {tx.type === TransactionType.SWAP && (
+                            <div className="flex items-center mr-2">
+                              <TokenIcon token={tx.fromToken} size={16} className="mr-1" />
+                              <ArrowLeftRight className="h-3 w-3 mx-1 text-purple-500" />
+                              <TokenIcon token={tx.toToken} size={16} className="ml-1" />
+                            </div>
+                          )}
+                          {tx.type === TransactionType.STAKE && (
+                            <div className="flex items-center mr-2">
+                              <TokenIcon token={TOKENS.ETH} size={16} className="mr-1" />
+                              <ArrowLeftRight className="h-3 w-3 mx-1 text-purple-500" />
+                              <TokenIcon token={TOKENS.SWETH} size={16} className="ml-1" />
+                            </div>
+                          )}
+                          {tx.type === TransactionType.RESTAKE && (
+                            <div className="flex items-center mr-2">
+                              <TokenIcon token={TOKENS.SWETH} size={16} className="mr-1" />
+                              <ArrowLeftRight className="h-3 w-3 mx-1 text-purple-500" />
+                              <div className="ml-1 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 w-4 h-4 flex items-center justify-center text-white text-[10px] font-bold">
+                                R
+                              </div>
+                            </div>
+                          )}
+                          <span className="text-sm font-medium text-purple-800 dark:text-purple-300">
                             {tx.type === TransactionType.STAKE
                               ? "Staked ETH"
                               : tx.type === TransactionType.RESTAKE
@@ -254,15 +278,15 @@ const Index = () => {
                           </span>
                           <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
                             tx.status === TransactionStatus.PENDING
-                              ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                              ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200"
                               : tx.status === TransactionStatus.CONFIRMED
-                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                              : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200"
+                              : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200"
                           }`}>
                             {tx.status}
                           </span>
                         </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <div className="text-xs text-purple-600/60 dark:text-purple-400/60 mt-1">
                           {new Date(tx.timestamp).toLocaleString()}
                         </div>
                       </div>
@@ -272,7 +296,7 @@ const Index = () => {
                           variant="ghost"
                           size="sm"
                           onClick={() => window.open(`https://optimistic.etherscan.io/tx/${tx.hash}`, "_blank")}
-                          className="text-gray-500 dark:text-gray-400 hover:text-swell dark:hover:text-swell-light"
+                          className="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300"
                         >
                           <ExternalLink size={14} />
                         </Button>
@@ -286,37 +310,40 @@ const Index = () => {
 
           {/* Info Cards */}
           <section className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
-            <div className="glass-panel hover:shadow-lg transition-shadow dark:bg-gray-900/40 dark:border-gray-800">
-              <h3 className="text-lg font-semibold mb-2">Stake ETH</h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">Convert your ETH to liquid staking tokens (swETH) and earn staking rewards.</p>
+            <div className="glass-panel hover:shadow-lg transition-shadow dark:bg-gray-900/40 dark:border-purple-900/30 group">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 dark:from-purple-900/10 dark:to-blue-900/10 rounded-xl" />
+              <h3 className="text-lg font-semibold mb-2 text-purple-800 dark:text-purple-300 relative">Stake ETH</h3>
+              <p className="text-purple-700/70 dark:text-purple-300/70 mb-4 relative">Convert your ETH to liquid staking tokens (swETH) and earn staking rewards.</p>
               <Button 
                 variant="outline" 
                 onClick={() => setActiveTab("stake")}
-                className="w-full border-swell text-swell hover:bg-swell hover:text-white dark:border-swell-light dark:text-swell-light"
+                className="w-full border-purple-200 text-purple-600 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white dark:border-purple-900/30 dark:text-purple-400 relative"
               >
                 Start Staking
               </Button>
             </div>
             
-            <div className="glass-panel hover:shadow-lg transition-shadow dark:bg-gray-900/40 dark:border-gray-800">
-              <h3 className="text-lg font-semibold mb-2">Restake via EigenLayer</h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">Maximize your yields by restaking your swETH through EigenLayer protocols.</p>
+            <div className="glass-panel hover:shadow-lg transition-shadow dark:bg-gray-900/40 dark:border-purple-900/30">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 dark:from-purple-900/10 dark:to-blue-900/10 rounded-xl" />
+              <h3 className="text-lg font-semibold mb-2 text-purple-800 dark:text-purple-300 relative">Restake via EigenLayer</h3>
+              <p className="text-purple-700/70 dark:text-purple-300/70 mb-4 relative">Maximize your yields by restaking your swETH through EigenLayer protocols.</p>
               <Button 
                 variant="outline" 
                 onClick={() => setActiveTab("restake")}
-                className="w-full border-swell text-swell hover:bg-swell hover:text-white dark:border-swell-light dark:text-swell-light"
+                className="w-full border-purple-200 text-purple-600 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white dark:border-purple-900/30 dark:text-purple-400 relative"
               >
                 Restake Now
               </Button>
             </div>
             
-            <div className="glass-panel hover:shadow-lg transition-shadow dark:bg-gray-900/40 dark:border-gray-800">
-              <h3 className="text-lg font-semibold mb-2">Swap Tokens</h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">Swap your swETH or other tokens for assets of your choice on Optimism DEXes.</p>
+            <div className="glass-panel hover:shadow-lg transition-shadow dark:bg-gray-900/40 dark:border-purple-900/30">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 dark:from-purple-900/10 dark:to-blue-900/10 rounded-xl" />
+              <h3 className="text-lg font-semibold mb-2 text-purple-800 dark:text-purple-300 relative">Swap Tokens</h3>
+              <p className="text-purple-700/70 dark:text-purple-300/70 mb-4 relative">Swap your swETH or other tokens for assets of your choice on Optimism DEXes.</p>
               <Button 
                 variant="outline" 
                 onClick={() => setActiveTab("swap")}
-                className="w-full border-swell text-swell hover:bg-swell hover:text-white dark:border-swell-light dark:text-swell-light"
+                className="w-full border-purple-200 text-purple-600 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white dark:border-purple-900/30 dark:text-purple-400 relative"
               >
                 Swap Tokens
               </Button>
@@ -325,22 +352,22 @@ const Index = () => {
         </div>
       </main>
 
-      <footer className="w-full py-8 bg-white/50 backdrop-blur-sm border-t border-gray-200 relative z-10 dark:bg-black/30 dark:border-gray-800">
+      <footer className="w-full py-6 bg-white/50 backdrop-blur-sm border-t border-purple-100 relative z-10 dark:bg-black/30 dark:border-purple-900/30">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-purple-600/60 dark:text-purple-400/60">
                 © 2023 SwellFlow. All rights reserved.
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-swell dark:hover:text-swell-light transition-colors">
+              <a href="#" className="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 transition-colors">
                 Terms
               </a>
-              <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-swell dark:hover:text-swell-light transition-colors">
+              <a href="#" className="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 transition-colors">
                 Privacy
               </a>
-              <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-swell dark:hover:text-swell-light transition-colors">
+              <a href="#" className="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 transition-colors">
                 FAQ
               </a>
             </div>
