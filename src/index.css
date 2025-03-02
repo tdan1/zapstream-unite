@@ -37,13 +37,13 @@
   }
 
   .dark {
-    --background: 222 47% 11%;
+    --background: 222 47% 5%;
     --foreground: 210 40% 98%;
 
-    --card: 222 47% 11%;
+    --card: 222 47% 7%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 47% 11%;
+    --popover: 222 47% 7%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 223 91% 53%;
@@ -96,11 +96,11 @@
 
 @layer components {
   .glass-panel {
-    @apply bg-white/70 dark:bg-black/60 backdrop-blur-md border border-white/20 shadow-glass;
+    @apply bg-white/70 dark:bg-black/60 backdrop-blur-md border border-white/20 dark:border-white/5 shadow-glass p-6 rounded-xl;
   }
   
   .glass-input {
-    @apply bg-white/50 dark:bg-black/30 backdrop-blur-sm border border-white/20 shadow-sm;
+    @apply bg-white/50 dark:bg-black/30 backdrop-blur-sm border border-white/20 dark:border-gray-800 shadow-sm;
   }
   
   .transaction-card {
@@ -116,7 +116,7 @@
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-swell to-swell-light;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-swell to-swell-light dark:from-swell-light dark:to-swell;
   }
 
   .gradient-border {

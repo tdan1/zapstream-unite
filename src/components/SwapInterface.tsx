@@ -182,12 +182,12 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-white/80 backdrop-blur-sm border border-gray-200 shadow-elevated rounded-xl">
+    <Card className="w-full max-w-md mx-auto glass-panel border border-gray-200 dark:border-gray-800 shadow-elevated rounded-xl">
       <CardHeader className="pb-4">
         <CardTitle className="text-2xl font-semibold text-center gradient-text">
           Swap
         </CardTitle>
-        <CardDescription className="text-center text-gray-600">
+        <CardDescription className="text-center text-gray-600 dark:text-gray-300">
           Swap your tokens for other assets on Optimism
         </CardDescription>
       </CardHeader>
@@ -196,14 +196,14 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
         {/* From Token Section */}
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               From
             </label>
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-gray-500 dark:text-gray-400">
               Balance: {parseFloat(fromBalance).toFixed(6)}
               <button 
                 onClick={handleMaxClick}
-                className="ml-1 text-swell hover:text-swell-dark font-medium"
+                className="ml-1 text-swell hover:text-swell-dark dark:text-swell-light dark:hover:text-swell font-medium"
                 disabled={parseFloat(fromBalance) === 0}
               >
                 MAX
@@ -231,7 +231,7 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
               <SelectTrigger className="w-[120px] glass-input">
                 <SelectValue placeholder="Token" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="dark:bg-gray-900 dark:border-gray-800">
                 {AVAILABLE_TOKENS_FOR_SWAP.map((token) => (
                   <SelectItem key={token.address} value={token.address}>
                     {token.symbol}
@@ -249,7 +249,7 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
             variant="ghost"
             size="icon"
             onClick={handleSwitchTokens}
-            className="h-8 w-8 rounded-full bg-gray-100 hover:bg-gray-200"
+            className="h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
             disabled={isSwapping || isLoading}
           >
             <ArrowDown className="h-4 w-4" />
@@ -258,7 +258,7 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
         
         {/* To Token Section */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
             To (estimated)
           </label>
           
@@ -281,7 +281,7 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
               <SelectTrigger className="w-[120px] glass-input">
                 <SelectValue placeholder="Token" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="dark:bg-gray-900 dark:border-gray-800">
                 {AVAILABLE_TOKENS_FOR_SWAP.map((token) => (
                   <SelectItem key={token.address} value={token.address}>
                     {token.symbol}
@@ -294,26 +294,26 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
         
         {/* Swap Info */}
         {quote && (
-          <div className="p-3 bg-gray-50 rounded-lg space-y-1 text-sm animate-fade-in">
+          <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg space-y-1 text-sm animate-fade-in">
             <div className="flex justify-between">
-              <span className="text-gray-500">Price Impact</span>
-              <span className={`font-medium ${parseFloat(quote.priceImpact.toString()) > 1 ? "text-orange-600" : "text-green-600"}`}>
+              <span className="text-gray-500 dark:text-gray-400">Price Impact</span>
+              <span className={`font-medium ${parseFloat(quote.priceImpact.toString()) > 1 ? "text-orange-600 dark:text-orange-400" : "text-green-600 dark:text-green-400"}`}>
                 {quote.priceImpact.toFixed(2)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Max Slippage</span>
+              <span className="text-gray-500 dark:text-gray-400">Max Slippage</span>
               <span className="font-medium">{MAX_SLIPPAGE}%</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Fee</span>
+              <span className="text-gray-500 dark:text-gray-400">Fee</span>
               <span className="font-medium">$0.1</span>
             </div>
           </div>
         )}
         
         {error && (
-          <div className="text-destructive text-sm bg-destructive/10 p-2 rounded animate-fade-in">
+          <div className="text-destructive text-sm bg-destructive/10 dark:bg-destructive/20 p-2 rounded animate-fade-in">
             {error}
           </div>
         )}

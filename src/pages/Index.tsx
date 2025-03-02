@@ -12,6 +12,8 @@ import { ethers } from "ethers";
 import { TOKENS } from "@/lib/constants";
 import { getAccountBalances } from "@/lib/contract";
 import { Transaction, TransactionStatus, TransactionType, SwapQuote } from "@/lib/types";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import WaveBackground from "@/components/WaveBackground";
 
 const Index = () => {
   const { toast } = useToast();
@@ -145,32 +147,37 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-blue-50">
+    <div className="min-h-screen flex flex-col relative bg-gradient-to-b from-gray-50 to-blue-50 dark:from-gray-950 dark:to-blue-950">
+      <WaveBackground />
+      
       {/* Header */}
-      <header className="w-full py-6">
+      <header className="w-full py-6 relative z-10">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center">
             <h1 className="text-2xl font-bold gradient-text">SwellFlow</h1>
-            <div className="ml-4 px-3 py-1 bg-swell-subtle text-swell text-xs font-medium rounded-full">
+            <div className="ml-4 px-3 py-1 bg-swell-subtle dark:bg-swell/20 text-swell dark:text-swell-light text-xs font-medium rounded-full">
               Beta
             </div>
           </div>
-          <WalletConnect
-            onConnect={handleWalletConnect}
-            connected={wallet.connected}
-            address={wallet.address}
-          />
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <WalletConnect
+              onConnect={handleWalletConnect}
+              connected={wallet.connected}
+              address={wallet.address}
+            />
+          </div>
         </div>
       </header>
 
-      <main className="flex-1 container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-4xl mx-auto">
           {/* Hero Section */}
           <section className="text-center mb-12 animate-fade-in">
             <h1 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
               <span className="gradient-text">Simplify Your Swellchain Experience</span>
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Stake, restake, and swap in one seamless interface. Unlock the power of Swellchain with just a few clicks.
             </p>
           </section>
@@ -178,7 +185,7 @@ const Index = () => {
           {/* Main Interface */}
           <section className="mb-12">
             <Tabs defaultValue="stake" value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3 mb-8">
+              <TabsList className="grid w-full grid-cols-3 mb-8 bg-gray-100/50 dark:bg-gray-900/50 backdrop-blur-sm">
                 <TabsTrigger value="stake" className="data-[state=active]:bg-swell data-[state=active]:text-white">
                   <Coins className="mr-2 h-4 w-4" />
                   Stake ETH
@@ -234,7 +241,7 @@ const Index = () => {
               <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
               <div className="space-y-3">
                 {transactions.slice(0, 5).map((tx) => (
-                  <div key={tx.id} className="transaction-card card-hover">
+                  <div key={tx.id} className="transaction-card card-hover dark:bg-gray-900/60 dark:border-gray-800">
                     <div className="flex justify-between items-center">
                       <div>
                         <div className="flex items-center">
@@ -247,15 +254,15 @@ const Index = () => {
                           </span>
                           <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
                             tx.status === TransactionStatus.PENDING
-                              ? "bg-yellow-100 text-yellow-800"
+                              ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
                               : tx.status === TransactionStatus.CONFIRMED
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
+                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                              : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
                           }`}>
                             {tx.status}
                           </span>
                         </div>
-                        <div className="text-xs text-gray-500 mt-1">
+                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                           {new Date(tx.timestamp).toLocaleString()}
                         </div>
                       </div>
@@ -265,7 +272,7 @@ const Index = () => {
                           variant="ghost"
                           size="sm"
                           onClick={() => window.open(`https://optimistic.etherscan.io/tx/${tx.hash}`, "_blank")}
-                          className="text-gray-500 hover:text-swell"
+                          className="text-gray-500 dark:text-gray-400 hover:text-swell dark:hover:text-swell-light"
                         >
                           <ExternalLink size={14} />
                         </Button>
@@ -279,37 +286,37 @@ const Index = () => {
 
           {/* Info Cards */}
           <section className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
-            <div className="bg-white/70 backdrop-blur-sm p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="glass-panel hover:shadow-lg transition-shadow dark:bg-gray-900/40 dark:border-gray-800">
               <h3 className="text-lg font-semibold mb-2">Stake ETH</h3>
-              <p className="text-gray-600 mb-4">Convert your ETH to liquid staking tokens (swETH) and earn staking rewards.</p>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">Convert your ETH to liquid staking tokens (swETH) and earn staking rewards.</p>
               <Button 
                 variant="outline" 
                 onClick={() => setActiveTab("stake")}
-                className="w-full border-swell text-swell hover:bg-swell hover:text-white"
+                className="w-full border-swell text-swell hover:bg-swell hover:text-white dark:border-swell-light dark:text-swell-light"
               >
                 Start Staking
               </Button>
             </div>
             
-            <div className="bg-white/70 backdrop-blur-sm p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="glass-panel hover:shadow-lg transition-shadow dark:bg-gray-900/40 dark:border-gray-800">
               <h3 className="text-lg font-semibold mb-2">Restake via EigenLayer</h3>
-              <p className="text-gray-600 mb-4">Maximize your yields by restaking your swETH through EigenLayer protocols.</p>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">Maximize your yields by restaking your swETH through EigenLayer protocols.</p>
               <Button 
                 variant="outline" 
                 onClick={() => setActiveTab("restake")}
-                className="w-full border-swell text-swell hover:bg-swell hover:text-white"
+                className="w-full border-swell text-swell hover:bg-swell hover:text-white dark:border-swell-light dark:text-swell-light"
               >
                 Restake Now
               </Button>
             </div>
             
-            <div className="bg-white/70 backdrop-blur-sm p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <div className="glass-panel hover:shadow-lg transition-shadow dark:bg-gray-900/40 dark:border-gray-800">
               <h3 className="text-lg font-semibold mb-2">Swap Tokens</h3>
-              <p className="text-gray-600 mb-4">Swap your swETH or other tokens for assets of your choice on Optimism DEXes.</p>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">Swap your swETH or other tokens for assets of your choice on Optimism DEXes.</p>
               <Button 
                 variant="outline" 
                 onClick={() => setActiveTab("swap")}
-                className="w-full border-swell text-swell hover:bg-swell hover:text-white"
+                className="w-full border-swell text-swell hover:bg-swell hover:text-white dark:border-swell-light dark:text-swell-light"
               >
                 Swap Tokens
               </Button>
@@ -318,22 +325,22 @@ const Index = () => {
         </div>
       </main>
 
-      <footer className="w-full py-8 bg-white/50 backdrop-blur-sm border-t border-gray-200">
+      <footer className="w-full py-8 bg-white/50 backdrop-blur-sm border-t border-gray-200 relative z-10 dark:bg-black/30 dark:border-gray-800">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 © 2023 SwellFlow. All rights reserved.
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <a href="#" className="text-gray-600 hover:text-swell transition-colors">
+              <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-swell dark:hover:text-swell-light transition-colors">
                 Terms
               </a>
-              <a href="#" className="text-gray-600 hover:text-swell transition-colors">
+              <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-swell dark:hover:text-swell-light transition-colors">
                 Privacy
               </a>
-              <a href="#" className="text-gray-600 hover:text-swell transition-colors">
+              <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-swell dark:hover:text-swell-light transition-colors">
                 FAQ
               </a>
             </div>
