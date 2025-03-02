@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,12 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				swell: {
+					DEFAULT: '#0F52FF',
+					dark: '#0846F1',
+					light: '#3E74FF',
+					subtle: '#EEF2FF'
 				}
 			},
 			borderRadius: {
@@ -84,11 +91,90 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					from: {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'fade-out': {
+					from: {
+						opacity: '1',
+						transform: 'translateY(0)'
+					},
+					to: {
+						opacity: '0',
+						transform: 'translateY(-10px)'
+					}
+				},
+				'pulse-soft': {
+					'0%, 100%': {
+						opacity: '1'
+					},
+					'50%': {
+						opacity: '0.8'
+					}
+				},
+				'scale-in': {
+					from: {
+						opacity: '0',
+						transform: 'scale(0.95)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'scale(1)'
+					}
+				},
+				'shimmer': {
+					'0%': {
+						backgroundPosition: '-500px 0'
+					},
+					'100%': {
+						backgroundPosition: '500px 0'
+					}
+				},
+				'rotate-gradient': {
+					'0%': {
+						transform: 'rotate(0deg)'
+					},
+					'100%': {
+						transform: 'rotate(360deg)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.3s ease-out',
+				'fade-out': 'fade-out 0.2s ease-in',
+				'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+				'scale-in': 'scale-in 0.2s ease-out',
+				'shimmer': 'shimmer 2s infinite linear',
+				'rotate-gradient': 'rotate-gradient 10s linear infinite'
+			},
+			backdropFilter: {
+				'none': 'none',
+				'blur': 'blur(8px)'
+			},
+			boxShadow: {
+				'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
+				'elevated': '0 10px 30px -5px rgba(0, 0, 0, 0.05)',
+				'button': '0 2px 4px rgba(0, 0, 0, 0.05)'
+			},
+			transitionProperty: {
+				'height': 'height',
+				'spacing': 'margin, padding',
+				'width': 'width',
+				'transform': 'transform'
+			},
+			transitionTimingFunction: {
+				'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+				'bounce': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
 			}
 		}
 	},
