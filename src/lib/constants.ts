@@ -32,7 +32,7 @@ export const TOKENS = {
 
 export const API = {
   ENSO_ROUTE: "https://api.enso.finance/api/v1/shortcuts/route",
-  OPTIMISM_RPC: "https://rpc.optimism.io",
+  OPTIMISM_RPC: "https://optimism.llamarpc.com",
   SWELLCHAIN_RPC: "https://rpc.swellnetwork.io"
 };
 

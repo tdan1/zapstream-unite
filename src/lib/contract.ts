@@ -1,6 +1,6 @@
 
 import { ethers } from "ethers";
-import { CHAIN_ID, CONTRACTS, TOKENS } from "./constants";
+import { CHAIN_ID, CONTRACTS, TOKENS, API } from "./constants";
 import { getProvider, getSimpleStakingContract, getEigenStakingContract, getTokenContract } from "./api";
 import type { ContractCallOptions } from "./types";
 
@@ -61,7 +61,7 @@ export const switchToOptimism = async (): Promise<void> => {
               symbol: "ETH",
               decimals: 18
             },
-            rpcUrls: ["https://rpc.optimism.io"],
+            rpcUrls: [API.OPTIMISM_RPC],
             blockExplorerUrls: ["https://optimistic.etherscan.io"]
           }
         ]
