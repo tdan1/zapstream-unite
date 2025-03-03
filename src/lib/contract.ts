@@ -40,6 +40,27 @@ export const connectWallet = async (): Promise<ethers.providers.Web3Provider> =>
   }
 };
 
+// Verify wallet ownership with a signature
+export const verifyWalletOwnership = async (signer: ethers.Signer): Promise<boolean> => {
+  try {
+    const address = await signer.getAddress();
+    const nonce = Math.floor(Math.random() * 1000000).toString();
+    const message = `Please sign this message to verify you are the owner of address ${address}. Nonce: ${nonce}`;
+    
+    // Request signature from the wallet
+    const signature = await signer.signMessage(message);
+    
+    // Recover the address from the signature
+    const recoveredAddress = ethers.utils.verifyMessage(message, signature);
+    
+    // Verify that the recovered address matches the connected address
+    return recoveredAddress.toLowerCase() === address.toLowerCase();
+  } catch (error) {
+    console.error("Error verifying wallet ownership:", error);
+    throw error;
+  }
+};
+
 // Switch to Optimism network
 export const switchToOptimism = async (): Promise<void> => {
   try {
