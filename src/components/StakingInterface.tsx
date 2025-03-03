@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -181,14 +180,11 @@ const StakingInterface: React.FC<StakingInterfaceProps> = ({
               value={amount}
               onChange={handleAmountChange}
               placeholder="0.0"
-              className="pl-10 pr-24 font-medium text-lg glass-input bg-white/40 dark:bg-black/20 border-purple-100 dark:border-purple-900/30"
+              className="pl-10 pr-16 font-medium text-lg glass-input bg-white/40 dark:bg-black/20 border-purple-100 dark:border-purple-900/30"
               disabled={isProcessing || !connected}
             />
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
               <span className="text-purple-600 dark:text-purple-400 font-medium">{inputToken.symbol}</span>
-              <span className="text-purple-500/60 dark:text-purple-300/60 text-xs ml-1">
-                ({inputToken.name})
-              </span>
             </div>
           </div>
         </div>
@@ -213,13 +209,10 @@ const StakingInterface: React.FC<StakingInterfaceProps> = ({
               type="text"
               value={estimatedAmount}
               readOnly
-              className="pl-10 pr-24 font-medium text-lg glass-input bg-white/40 dark:bg-black/20 border-purple-100 dark:border-purple-900/30"
+              className="pl-10 pr-16 font-medium text-lg glass-input bg-white/40 dark:bg-black/20 border-purple-100 dark:border-purple-900/30"
             />
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
               <span className="text-purple-600 dark:text-purple-400 font-medium">{outputToken.symbol}</span>
-              <span className="text-purple-500/60 dark:text-purple-300/60 text-xs ml-1">
-                ({outputToken.name})
-              </span>
             </div>
           </div>
         </div>
