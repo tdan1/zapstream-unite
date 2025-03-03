@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowDown, Loader2, RefreshCw } from "lucide-react";
+import { ArrowDown, Loader2, RefreshCw, ArrowLeftRight } from "lucide-react";
 import { ethers } from "ethers";
 import { AVAILABLE_TOKENS_FOR_SWAP, MAX_SLIPPAGE, TOKENS } from "@/lib/constants";
 import { SwapQuote, Token } from "@/lib/types";
 import { getSwapRoute, executeSwap, getTokenBalance } from "@/lib/api";
+import TokenIcon from "./TokenIcon";
 
 interface SwapInterfaceProps {
   connected: boolean;
@@ -182,28 +183,30 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto glass-panel border border-gray-200 dark:border-gray-800 shadow-elevated rounded-xl">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-2xl font-semibold text-center gradient-text">
-          Swap
+    <Card className="w-full max-w-md mx-auto glass-panel border-purple-100 dark:border-purple-900/30 shadow-elevated rounded-xl overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 dark:from-purple-900/10 dark:to-blue-900/10" />
+      
+      <CardHeader className="pb-4 relative">
+        <CardTitle className="text-2xl font-semibold text-center text-purple-900 dark:text-purple-300">
+          Swap Tokens
         </CardTitle>
-        <CardDescription className="text-center text-gray-600 dark:text-gray-300">
+        <CardDescription className="text-center text-purple-700/70 dark:text-purple-300/70">
           Swap your tokens for other assets on Optimism
         </CardDescription>
       </CardHeader>
       
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 relative">
         {/* From Token Section */}
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-sm font-medium text-purple-800 dark:text-purple-300">
               From
             </label>
-            <div className="text-xs text-gray-500 dark:text-gray-400">
+            <div className="text-xs text-purple-600 dark:text-purple-400">
               Balance: {parseFloat(fromBalance).toFixed(6)}
               <button 
                 onClick={handleMaxClick}
-                className="ml-1 text-swell hover:text-swell-dark dark:text-swell-light dark:hover:text-swell font-medium"
+                className="ml-1 text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium"
                 disabled={parseFloat(fromBalance) === 0}
               >
                 MAX
@@ -211,115 +214,114 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
             </div>
           </div>
           
-          <div className="flex space-x-2">
-            <div className="relative flex-1">
-              <Input
-                type="text"
-                value={fromAmount}
-                onChange={handleFromAmountChange}
-                placeholder="0.0"
-                className="font-medium text-lg glass-input"
-                disabled={isSwapping || !connected}
-              />
+          <div className="relative">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+              <TokenIcon token={fromToken} size={20} />
             </div>
-            
-            <Select 
-              value={fromToken.address} 
-              onValueChange={handleFromTokenChange}
-              disabled={isSwapping}
-            >
-              <SelectTrigger className="w-[120px] glass-input">
-                <SelectValue placeholder="Token" />
-              </SelectTrigger>
-              <SelectContent className="dark:bg-gray-900 dark:border-gray-800">
-                {AVAILABLE_TOKENS_FOR_SWAP.map((token) => (
-                  <SelectItem key={token.address} value={token.address}>
-                    {token.symbol}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Input
+              type="text"
+              value={fromAmount}
+              onChange={handleFromAmountChange}
+              placeholder="0.0"
+              className="pl-10 pr-24 font-medium text-lg glass-input bg-white/40 dark:bg-black/20 border-purple-100 dark:border-purple-900/30"
+              disabled={isSwapping || !connected}
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              <Select 
+                value={fromToken.address} 
+                onValueChange={handleFromTokenChange}
+                disabled={isSwapping}
+              >
+                <SelectTrigger className="border-0 bg-transparent focus:ring-0 text-purple-600 dark:text-purple-400 font-medium">
+                  <SelectValue placeholder="Token" />
+                </SelectTrigger>
+                <SelectContent className="bg-white dark:bg-gray-900 border-purple-100 dark:border-purple-900/30">
+                  {AVAILABLE_TOKENS_FOR_SWAP.map((token) => (
+                    <SelectItem key={token.address} value={token.address} className="flex items-center gap-2">
+                      <TokenIcon token={token} size={16} />
+                      <span>{token.symbol}</span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
         
         {/* Switch Button */}
-        <div className="flex justify-center -my-2">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={handleSwitchTokens}
-            className="h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
-            disabled={isSwapping || isLoading}
-          >
-            <ArrowDown className="h-4 w-4" />
-          </Button>
+        <div className="flex justify-center my-2">
+          <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center cursor-pointer" onClick={handleSwitchTokens}>
+            <ArrowDown className="h-4 w-4 text-purple-500 dark:text-purple-400" />
+          </div>
         </div>
         
         {/* To Token Section */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label className="text-sm font-medium text-purple-800 dark:text-purple-300">
             To (estimated)
           </label>
           
-          <div className="flex space-x-2">
-            <div className="relative flex-1">
-              <Input
-                type="text"
-                value={toAmount}
-                readOnly
-                placeholder="0.0"
-                className={`font-medium text-lg glass-input ${isLoading ? "animate-pulse" : ""}`}
-              />
+          <div className="relative">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+              <TokenIcon token={toToken} size={20} />
             </div>
-            
-            <Select 
-              value={toToken.address} 
-              onValueChange={handleToTokenChange}
-              disabled={isSwapping}
-            >
-              <SelectTrigger className="w-[120px] glass-input">
-                <SelectValue placeholder="Token" />
-              </SelectTrigger>
-              <SelectContent className="dark:bg-gray-900 dark:border-gray-800">
-                {AVAILABLE_TOKENS_FOR_SWAP.map((token) => (
-                  <SelectItem key={token.address} value={token.address}>
-                    {token.symbol}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Input
+              type="text"
+              value={toAmount}
+              readOnly
+              placeholder="0.0"
+              className={`pl-10 pr-24 font-medium text-lg glass-input bg-white/40 dark:bg-black/20 border-purple-100 dark:border-purple-900/30 ${isLoading ? "animate-pulse" : ""}`}
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              <Select 
+                value={toToken.address} 
+                onValueChange={handleToTokenChange}
+                disabled={isSwapping}
+              >
+                <SelectTrigger className="border-0 bg-transparent focus:ring-0 text-purple-600 dark:text-purple-400 font-medium">
+                  <SelectValue placeholder="Token" />
+                </SelectTrigger>
+                <SelectContent className="bg-white dark:bg-gray-900 border-purple-100 dark:border-purple-900/30">
+                  {AVAILABLE_TOKENS_FOR_SWAP.map((token) => (
+                    <SelectItem key={token.address} value={token.address} className="flex items-center gap-2">
+                      <TokenIcon token={token} size={16} />
+                      <span>{token.symbol}</span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
         
         {/* Swap Info */}
         {quote && (
-          <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg space-y-1 text-sm animate-fade-in">
+          <div className="p-3 bg-white/40 dark:bg-black/20 rounded-lg space-y-1 text-sm animate-fade-in border border-purple-100/30 dark:border-purple-900/20">
             <div className="flex justify-between">
-              <span className="text-gray-500 dark:text-gray-400">Price Impact</span>
+              <span className="text-purple-700/70 dark:text-purple-300/70">Price Impact</span>
               <span className={`font-medium ${parseFloat(quote.priceImpact.toString()) > 1 ? "text-orange-600 dark:text-orange-400" : "text-green-600 dark:text-green-400"}`}>
                 {quote.priceImpact.toFixed(2)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500 dark:text-gray-400">Max Slippage</span>
-              <span className="font-medium">{MAX_SLIPPAGE}%</span>
+              <span className="text-purple-700/70 dark:text-purple-300/70">Max Slippage</span>
+              <span className="font-medium text-purple-800 dark:text-purple-300">{MAX_SLIPPAGE}%</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500 dark:text-gray-400">Fee</span>
-              <span className="font-medium">$0.1</span>
+              <span className="text-purple-700/70 dark:text-purple-300/70">Fee</span>
+              <span className="font-medium text-purple-800 dark:text-purple-300">$0.1</span>
             </div>
           </div>
         )}
         
         {error && (
-          <div className="text-destructive text-sm bg-destructive/10 dark:bg-destructive/20 p-2 rounded animate-fade-in">
+          <div className="text-red-500 text-sm bg-red-50 dark:bg-red-900/20 p-2 rounded-md animate-fade-in">
             {error}
           </div>
         )}
       </CardContent>
       
-      <CardFooter>
+      <CardFooter className="relative">
         <Button 
           onClick={handleSwapClick}
           disabled={
@@ -331,7 +333,7 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
             !toAmount || 
             !quote
           }
-          className="w-full h-12 bg-swell hover:bg-swell-dark transition-all duration-300"
+          className="w-full h-12 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-0 transition-all duration-300"
         >
           {isSwapping ? (
             <>
@@ -350,7 +352,10 @@ const SwapInterface: React.FC<SwapInterfaceProps> = ({
           ) : !quote ? (
             "Invalid Swap"
           ) : (
-            "Swap Now"
+            <>
+              <ArrowLeftRight className="mr-2 h-5 w-5" />
+              Swap Now
+            </>
           )}
         </Button>
       </CardFooter>
