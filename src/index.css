@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 210 33% 99%;
+    --background: 0 0% 98%;
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
@@ -14,24 +14,24 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 266 100% 64%;
+    --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 262 83% 58%;
+    --secondary: 214 32% 91%;
     --secondary-foreground: 222 47% 11%;
 
     --muted: 214 32% 91%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 262 83% 58%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 267 100% 60%;
+    --ring: 221 83% 53%;
 
     --radius: 0.75rem;
   }
@@ -46,16 +46,16 @@
     --popover: 222 47% 7%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 267 100% 70%;
+    --primary: 217 91% 60%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 262 83% 58%;
+    --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 262 83% 58%;
+    --accent: 217 91% 60%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 63% 31%;
@@ -63,7 +63,7 @@
 
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 266 100% 64%;
+    --ring: 224 76% 48%;
   }
 }
 
@@ -82,121 +82,95 @@
   }
 
   h1 {
-    @apply text-4xl sm:text-5xl;
+    @apply text-4xl;
   }
 
   h2 {
-    @apply text-3xl sm:text-4xl;
+    @apply text-3xl;
   }
   
   h3 {
-    @apply text-2xl sm:text-3xl;
+    @apply text-2xl;
   }
 }
 
+/* Custom styles inspired by the reference image */
 @layer components {
   .glass-panel {
-    @apply bg-white/70 dark:bg-black/60 backdrop-blur-md border border-purple-100/20 dark:border-purple-900/20 shadow-glass p-6 rounded-xl relative overflow-hidden;
+    @apply bg-white shadow-sm border border-gray-200 rounded-xl;
   }
   
   .glass-input {
-    @apply bg-white/50 dark:bg-black/30 backdrop-blur-sm border border-purple-100/20 dark:border-purple-900/20 shadow-sm;
+    @apply bg-gray-50 border border-gray-200;
   }
   
   .transaction-card {
-    @apply bg-white dark:bg-black/60 rounded-xl border border-purple-100 dark:border-purple-900/30 shadow-elevated p-5 transition-all duration-300;
+    @apply bg-white rounded-lg border border-gray-200 shadow-sm p-4;
   }
   
-  .card-hover {
-    @apply hover:shadow-lg hover:-translate-y-1 transition-all duration-300;
+  .gradient-button {
+    @apply bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white;
   }
 
-  .shimmer {
-    @apply animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent bg-[length:500px_100%];
+  .swap-card {
+    @apply bg-white shadow-md border border-gray-200 rounded-xl overflow-hidden;
   }
 
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400;
+  .input-field {
+    @apply bg-gray-50 border border-gray-200 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500;
   }
 
-  .gradient-border {
-    position: relative;
+  .token-select {
+    @apply border bg-white rounded-lg shadow-sm;
   }
+}
 
-  .gradient-border::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(to right, theme('colors.purple.600'), theme('colors.blue.600'));
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
+/* Animation styles */
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
 
-  .solana-button {
-    @apply bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white transition-all duration-300;
-  }
+.animate-in {
+  animation: fade-in 0.3s ease-out;
+}
 
-  .token-icon-pair {
-    position: relative;
-    width: 36px;
-    height: 20px;
-  }
-
-  .token-icon-pair > :first-child {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-
-  .token-icon-pair > :last-child {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
+.fade-in {
+  animation: fade-in 0.3s ease-out;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(147, 112, 219, 0.05);
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(147, 112, 219, 0.2);
-  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(147, 112, 219, 0.3);
+  background: rgba(0, 0, 0, 0.2);
 }
 
-/* Smooth transitions */
-* {
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+/* Make dropdowns have solid backgrounds */
+[data-radix-popper-content-wrapper] {
+  z-index: 999 !important;
 }
 
-/* Animation for token swaps */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 10px 2px rgba(147, 112, 219, 0.1);
-  }
-  50% {
-    box-shadow: 0 0 20px 6px rgba(147, 112, 219, 0.2);
-  }
-}
-
-.pulse-glow {
-  animation: pulse-glow 2s infinite;
+.SelectContent {
+  overflow: hidden;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
 }
