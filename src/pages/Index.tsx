@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -78,6 +77,26 @@ const Index = () => {
     toast({
       title: "Wallet Connected",
       description: `Connected to ${address.substring(0, 6)}...${address.substring(address.length - 4)}`,
+    });
+  };
+
+  // Handle wallet disconnection
+  const handleWalletDisconnect = () => {
+    setWallet({
+      connected: false,
+      address: null,
+      provider: null,
+      signer: null,
+      chainId: null,
+      balance: {
+        eth: "0",
+        sweth: "0"
+      }
+    });
+
+    toast({
+      title: "Wallet Disconnected",
+      description: "Your wallet has been disconnected",
     });
   };
 
@@ -164,8 +183,10 @@ const Index = () => {
             <ThemeToggle />
             <WalletConnect
               onConnect={handleWalletConnect}
+              onDisconnect={handleWalletDisconnect}
               connected={wallet.connected}
               address={wallet.address}
+              assets={wallet.balance}
             />
           </div>
         </div>
